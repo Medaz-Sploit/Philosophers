@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 09:28:34 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/08 20:58:06 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/08 23:49:47 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ t_rule	g_rules;
 size_t	get_time(void);
 void	ft_init_philosophers(void);
 void	routine(t_philo *philo, int right_fork, int left_fork);
-void	eating(t_philo *philo, int right_fork, int left_fork);
-void	sleeping(t_philo *philo);
 void	ft_init(int argc, char **argv);
 void	ft_usleep(size_t time);
 void	ft_putnbr(int n);
@@ -80,6 +78,6 @@ void	print_msg(t_philo *philo, char *c, char *msg);
 void	ft_putstr_fd(char *s, int fd);
 int		print_error(int e);
 int		check_digits(int ac, char **av);
-void	*check_meals(int *i, void *g_rules);
+int		check_meals(void *g_rules);
 int		is_dead(void *g_rules);
 #endif

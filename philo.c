@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 09:28:30 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/08 20:58:06 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/08 23:49:51 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,18 @@ void	*supervisor(void *g_rules)
 	usleep(100);
 	while (1)
 	{
-		is_dead(g_rules);
-		check_meals(&i, g_rules);
+		if (is_dead(g_rules))
+			return (NULL);
+		if (((t_rule *)g_rules)->philos->meals != -1 && check_meals(g_rules))
+		{
+			pthread_mutex_lock(&((t_rule *)g_rules)->display);
+			write(1, KNRM, ft_strlen(KNRM));
+			write(1, FIN, ft_strlen(FIN));
+			ft_putnbr(((t_rule *)g_rules)->nbr_meals);
+			write(1, " times\n", 6);
+			exit(0);
+		}
+		//check_meals(&i, g_rules);
 	}
 	return (NULL);
 }

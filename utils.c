@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:21:23 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/08 20:58:06 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/08 23:49:38 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,30 @@ int	check_digits(int ac, char **av)
 	return (1);
 }
 
-void	*check_meals(int *i, void *g_rules)
+int	check_meals(void *g_rules)
 {
 	int	r;
+	int	i;
 
 	r = 0;
-	(*i) = -1;
-	while (++(*i) < ((t_rule *)g_rules)->nbr_philo)
+	i = -1;
+	while (++i < ((t_rule *)g_rules)->nbr_philo)
 	{
-		if (((t_rule *)g_rules)->philos[(*i)].meals == \
+		if (((t_rule *)g_rules)->philos[i].meals == \
 		((t_rule *)g_rules)->nbr_meals)
 			r++;
 	}
 	if (r != ((t_rule *)g_rules)->nbr_philo)
 		r = 0;
-	else
-	{
-		pthread_mutex_lock(&((t_rule *)g_rules)->display);
-		write(1, KNRM, ft_strlen(KNRM));
-		write(1, FIN, ft_strlen(FIN));
-		ft_putnbr(((t_rule *)g_rules)->nbr_meals);
-		write(1, " times\n", 6);
-		exit(0);
-	}
-	return (NULL);
+	return (r);
+	// else
+	// {
+	// 	pthread_mutex_lock(&((t_rule *)g_rules)->display);
+	// 	write(1, KNRM, ft_strlen(KNRM));
+	// 	write(1, FIN, ft_strlen(FIN));
+	// 	ft_putnbr(((t_rule *)g_rules)->nbr_meals);
+	// 	write(1, " times\n", 6);
+	// 	exit(0);
+	// }
+	// return (NULL);
 }

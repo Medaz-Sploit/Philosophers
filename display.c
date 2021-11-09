@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 10:55:30 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/08 20:58:06 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/08 23:17:19 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ void	print_msg(t_philo *philo, char *c, char *msg)
 	write(1, msg, ft_strlen(msg));
 	write(1, KNRM, ft_strlen(KNRM));
 	pthread_mutex_unlock(philo->display);
-}
-
-void	routine(t_philo *philo, int right_fork, int left_fork)
-{
-	eating(philo, right_fork, left_fork);
-	sleeping(philo);
 }
 
 void	eating(t_philo *philo, int right_fork, int left_fork)
@@ -53,4 +47,10 @@ void	sleeping(t_philo *philo)
 	print_msg(philo, KYEL, SLEEPING);
 	ft_usleep(((t_philo *)philo)->g_rules->time_to_sleep);
 	print_msg(philo, KMAG, THINKING);
+}
+
+void	routine(t_philo *philo, int right_fork, int left_fork)
+{
+	eating(philo, right_fork, left_fork);
+	sleeping(philo);
 }
