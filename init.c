@@ -12,38 +12,38 @@
 
 #include "philo.h"
 
-void	ft_init(int argc, char **argv)
+void	ft_init(t_rule *rules, int argc, char **argv)
 {
-	g_rules.nbr_philo = atoi(argv[1]);
-	g_rules.time_to_die = atoi(argv[2]);
-	g_rules.time_to_eat = atoi(argv[3]);
-	g_rules.time_to_sleep = atoi(argv[4]);
+	rules->nbr_philo = atoi(argv[1]);
+	rules->time_to_die = atoi(argv[2]);
+	rules->time_to_eat = atoi(argv[3]);
+	rules->time_to_sleep = atoi(argv[4]);
 	if (argc == 6)
-		g_rules.nbr_meals = atoi(argv[5]);
+		rules->nbr_meals = atoi(argv[5]);
 	else
-		g_rules.nbr_meals = -1;
-	g_rules.philos = malloc(sizeof(t_philo) * g_rules.nbr_philo);
-	g_rules.forks = malloc(sizeof(pthread_mutex_t) * g_rules.nbr_philo);
+		rules->nbr_meals = -1;
+	rules->philos = malloc(sizeof(t_philo) * rules->nbr_philo);
+	rules->forks = malloc(sizeof(pthread_mutex_t) * rules->nbr_philo);
 }
 
-void	ft_init_philosophers(void)
+void	ft_init_philosophers(t_rule *rules)
 {
 	int	i;
 
 	i = -1;
-	while (++i < g_rules.nbr_philo)
-		pthread_mutex_init(&g_rules.forks[i], NULL);
-	pthread_mutex_init(&g_rules.display, NULL);
+	while (++i < rules->nbr_philo)
+		pthread_mutex_init(&rules->forks[i], NULL);
+	pthread_mutex_init(&rules->display, NULL);
 	i = -1;
-	while (++i < g_rules.nbr_philo)
+	while (++i < rules->nbr_philo)
 	{
-		g_rules.philos[i].forks = g_rules.forks;
-		g_rules.philos[i].id = i + 1;
-		g_rules.philos[i].meals = 0;
-		g_rules.philos[i].display = &(g_rules.display);
-		g_rules.philos[i].g_rules = &g_rules;
-		g_rules.philos[i].lastime_eat = get_time();
-		g_rules.philos[i].is_eating = 0;
-		pthread_mutex_init(&(g_rules.philos[i].eating), NULL);
+		rules->philos[i].forks = rules->forks;
+		rules->philos[i].id = i + 1;
+		rules->philos[i].meals = 0;
+		rules->philos[i].display = &(rules->display);
+		rules->philos[i].rules = rules;
+		rules->philos[i].lastime_eat = get_time();
+		rules->philos[i].is_eating = 0;
+		pthread_mutex_init(&(rules->philos[i].eating), NULL);
 	}
 }

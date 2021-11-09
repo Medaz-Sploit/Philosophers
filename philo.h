@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 09:28:34 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/08 23:49:47 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:32:49 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_philo
 	int					id;
 	size_t				lastime_eat;
 	int					is_eating;
-	struct s_rule		*g_rules;
+	struct s_rule		*rules;
 }						t_philo;
 
 typedef struct s_rule
@@ -65,12 +65,10 @@ typedef struct s_rule
 	size_t				time;
 }						t_rule;
 
-t_rule	g_rules;
-
 size_t	get_time(void);
-void	ft_init_philosophers(void);
+void	ft_init_philosophers(t_rule *rules);
 void	routine(t_philo *philo, int right_fork, int left_fork);
-void	ft_init(int argc, char **argv);
+void	ft_init(t_rule *rules, int argc, char **argv);
 void	ft_usleep(size_t time);
 void	ft_putnbr(int n);
 size_t	ft_strlen(char *s);
@@ -78,6 +76,6 @@ void	print_msg(t_philo *philo, char *c, char *msg);
 void	ft_putstr_fd(char *s, int fd);
 int		print_error(int e);
 int		check_digits(int ac, char **av);
-int		check_meals(void *g_rules);
-int		is_dead(void *g_rules);
+int		check_meals(t_rule *rules);
+int		is_dead(t_rule *rules, int *i, size_t *current_time);
 #endif

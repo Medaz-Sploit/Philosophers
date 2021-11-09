@@ -58,30 +58,29 @@ int	check_digits(int ac, char **av)
 	return (1);
 }
 
-int	check_meals(void *g_rules)
+int	check_meals(t_rule *rules)
 {
 	int	r;
 	int	i;
 
 	r = 0;
 	i = -1;
-	while (++i < ((t_rule *)g_rules)->nbr_philo)
+	if (rules->nbr_meals != -1)
 	{
-		if (((t_rule *)g_rules)->philos[i].meals == \
-		((t_rule *)g_rules)->nbr_meals)
-			r++;
+		while (++i < rules->nbr_philo)
+		{
+			if (rules->philos[i].meals >= rules->nbr_meals)
+				r++;
+		}
+		if (r == rules->nbr_philo)
+		{
+			pthread_mutex_lock(&rules->display);
+			write(1, KNRM, ft_strlen(KNRM));
+			write(1, FIN, ft_strlen(FIN));
+			ft_putnbr(rules->nbr_meals);
+			write(1, " times\n", 6);
+			return (1);
+		}
 	}
-	if (r != ((t_rule *)g_rules)->nbr_philo)
-		r = 0;
-	return (r);
-	// else
-	// {
-	// 	pthread_mutex_lock(&((t_rule *)g_rules)->display);
-	// 	write(1, KNRM, ft_strlen(KNRM));
-	// 	write(1, FIN, ft_strlen(FIN));
-	// 	ft_putnbr(((t_rule *)g_rules)->nbr_meals);
-	// 	write(1, " times\n", 6);
-	// 	exit(0);
-	// }
-	// return (NULL);
+	return (0);
 }

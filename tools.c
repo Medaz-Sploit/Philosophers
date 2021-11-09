@@ -6,7 +6,7 @@
 /*   By: mazoukni <mazoukni@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:42:27 by mazoukni          #+#    #+#             */
-/*   Updated: 2021/11/09 13:26:58 by mazoukni         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:32:28 by mazoukni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,28 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-int	is_dead(void *g_rules)
+int	is_dead(t_rule *rules, int *i, size_t *current_time)
 {
-	size_t	current_time;
-	int		i;
-
-	i = -1;
-	current_time = 0;
-	while (++i < ((t_rule *)g_rules)->nbr_philo)
+	(*i) = -1;
+	while (++(*i) < rules->nbr_philo)
 	{
-		if (!(((t_rule *)g_rules)->philos[i].is_eating))
+		if (!rules->philos[(*i)].is_eating)
 		{
-			//pthread_mutex_lock(&((t_rule *)g_rules)->philos[i].eating);
-			current_time = get_time();
-			if (current_time - ((t_rule *)g_rules)->philos[i].lastime_eat >= \
-			((t_rule *)g_rules)->time_to_die)
+			pthread_mutex_lock(&rules->philos[(*i)].eating);
+			(*current_time) = get_time();
+			if ((*current_time) - rules->philos[(*i)].lastime_eat >= \
+			rules->time_to_die)
 			{
-				pthread_mutex_lock(&((t_rule *)g_rules)->display);
+				pthread_mutex_lock(&rules->display);
 				write(1, KRED, ft_strlen(KRED));
-				ft_putnbr(get_time() - ((t_rule *)g_rules)->time);
+				ft_putnbr(get_time() - rules->time);
 				write(1, " ", 1);
-				ft_putnbr(((t_rule *)g_rules)->philos[i].id);
+				ft_putnbr(rules->philos[(*i)].id);
 				write(1, DIED, ft_strlen(DIED));
 				write(1, KNRM, ft_strlen(KNRM));
 				return (1);
 			}
+			pthread_mutex_unlock(&rules->philos[(*i)].eating);
 		}
 	}
 	return (0);

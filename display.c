@@ -16,7 +16,7 @@ void	print_msg(t_philo *philo, char *c, char *msg)
 {
 	pthread_mutex_lock(philo->display);
 	write(1, c, ft_strlen(c));
-	ft_putnbr(get_time() - ((t_philo *)philo)->g_rules->time);
+	ft_putnbr(get_time() - ((t_philo *)philo)->rules->time);
 	write(1, " ", 1);
 	ft_putnbr(philo->id);
 	write(1, msg, ft_strlen(msg));
@@ -31,10 +31,10 @@ void	eating(t_philo *philo, int right_fork, int left_fork)
 	pthread_mutex_lock(&((t_philo *)philo)->forks[right_fork]);
 	print_msg(philo, KBLU, TAKE_FORK);
 	print_msg(philo, KGRN, EATING);
-	pthread_mutex_lock(&((t_philo *)philo)->eating);
 	((t_philo *)philo)->is_eating = 1;
+	pthread_mutex_lock(&((t_philo *)philo)->eating);
 	((t_philo *)philo)->lastime_eat = get_time();
-	ft_usleep(((t_philo *)philo)->g_rules->time_to_eat);
+	ft_usleep(((t_philo *)philo)->rules->time_to_eat);
 	pthread_mutex_unlock(&((t_philo *)philo)->eating);
 	((t_philo *)philo)->is_eating = 0;
 	((t_philo *)philo)->meals++;
@@ -45,7 +45,7 @@ void	eating(t_philo *philo, int right_fork, int left_fork)
 void	sleeping(t_philo *philo)
 {
 	print_msg(philo, KYEL, SLEEPING);
-	ft_usleep(((t_philo *)philo)->g_rules->time_to_sleep);
+	ft_usleep(((t_philo *)philo)->rules->time_to_sleep);
 	print_msg(philo, KMAG, THINKING);
 }
 
